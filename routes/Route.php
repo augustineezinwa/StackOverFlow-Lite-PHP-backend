@@ -1,16 +1,12 @@
 <?php
 
 Class Route {
-    
-    private $request;
-    private $supportedHttpMethods = array( 'GET', 'POST');
 
-    function __construct() {
-        
+    public static function set($route, $function) {
+
+      if($_SERVER['REQUEST_URI'] === $route) {
+        $function->__invoke();
+      }
+  
     }
-
-    public function get() {
-        
-    }
-
 }

@@ -4,8 +4,9 @@
 Header('Access-Control-Allow-Origin: *');
 Header('Content-Type: application/json');
 
-include_once '../../config/Database.php';
 include_once '../../models/Question.php';
+include_once '../config/Database.php';
+
 
 //instantiate DB and connect
 
