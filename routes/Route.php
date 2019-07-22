@@ -1,7 +1,6 @@
 <?php
 
 include_once './routes/Request.php';
-// include_once '../api/controllers/QuestionController.php';
 
 Class Route extends Request {
 
@@ -16,34 +15,33 @@ Class Route extends Request {
 
       $req = new Request();
 
-      array_push($req->params, $request[1]);
+      $route_url = explode('/', trim($args[0], '/'));
+     
 
-      // print_r($req->params);
-      // print_r($args);
+     if(count($route_url) === count($request) && strtolower($_SERVER['REQUEST_METHOD']) === $methodName ) {
 
-      switch($methodName) {
-        case 'get':
-  
-        // print_r($args[0]);
-        // print_r($request);
-        
-        // print_r($request);
+      $new_array = array_combine($route_url, $request);
 
-        if($_SERVER['REQUEST_URI'] === '/'.$request[0].'/'.$request[1]) {
-         
-          $args[1]->__invoke($req);
-        }
-        break;
-        case 'post':
-        echo 'post';
-        break;
-        case 'put':
-        echo 'put';
-        break;
-        case 'delete':
-        echo 'delete';
-        break;
+      $req->__params($new_array);
+
+      $req->__body();
+
+      $is_called = true;
+
+      for($i =0; $i< count($request); $i+=2 ) {
+
+        if($request[$i] !== $route_url[$i]) {
+
+          $is_called = false;
+
+        } 
+
       }
+
+        if($is_called) $args[1]->__invoke($req);
+
+    }
+
     }
 
     public static function set($route, $function) {

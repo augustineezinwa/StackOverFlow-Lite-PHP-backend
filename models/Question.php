@@ -33,4 +33,18 @@ Class Question {
         return $stmt;
 
     }
+
+     //Get all Questions from the database
+     public function getAQuestion($id) {
+
+        //create query for getting questions
+        $query = "SELECT * from  $this->table  WHERE id =  $id";
+
+        $stmt = $this->conn->prepare($query);
+
+        $stmt->execute();
+
+        return $stmt;
+
+    }
 }

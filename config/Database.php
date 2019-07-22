@@ -3,8 +3,8 @@ Class Database {
 
     //define Database Parameters
     private $host = 'localhost';
-    private $database_name = 'StackOverFlow-Lite_DB';
-    private $username = 'root';
+    private $database_name = 'stackoverflowlite';
+    private $username = 'postgres';
     private $password = 'inieef';
     private $conn;
 
