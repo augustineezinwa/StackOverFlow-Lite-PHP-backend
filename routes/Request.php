@@ -32,7 +32,7 @@ class Request {
 
         //make request made in url-x/encoded, application/json and form-data readable
 
-        if($_SERVER['CONTENT_TYPE'] === 'application/json') {
+        if(isset($_SERVER['CONTENT_TYPE']) && $_SERVER['CONTENT_TYPE'] === 'application/json') {
 
             $this->body = json_decode( file_get_contents( 'php://input' ), true );
 

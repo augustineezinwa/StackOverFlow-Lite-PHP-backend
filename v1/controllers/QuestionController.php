@@ -30,36 +30,22 @@ class QuestionController extends Controller {
         $response = $question->getQuestions();
 
         $rowCount = $response->rowCount();
-
-        
     
         if($rowCount > 0) {
 
-            $question_arr = array();
+        $questions = $response->fetchAll(PDO::FETCH_OBJ); 
+        $this->conn = null;
 
-            $question_arr['data'] = array();
-            
-            while($row = $response->fetch(PDO::FETCH_ASSOC)) {
-                extract($row);
+        echo json_encode($questions, JSON_PRETTY_PRINT);
         
-                $question_item = array(
-                    'questionId' => $id,
-                    'questionTitle' => $question_title,
-                    'questionDescription' => $question_description,
-                    'createdAt' => $created_at
-                );
-                
-                array_push( $question_arr['data'], $question_item);
-        
-                echo json_encode($question_arr, JSON_PRETTY_PRINT);
-    
-        } 
     }
         else 
         {
+                http_response_code(404);
                 echo json_encode(
                     array('message' => 'No Posts found')
                 );
+    
         };
 
     }
@@ -75,34 +61,29 @@ class QuestionController extends Controller {
 
         if($rowCount > 0 ) {
 
-            $question_arr = array();
+            $question = $response->fetch(PDO::FETCH_OBJ);
 
-            while($row = $response->fetch(PDO::FETCH_ASSOC)) {
-                extract($row);
+            echo json_encode(
+                 
+                 [ 
+                     'id' => $question->id,
+                     'questionTitle' => $question->question_title,
+                     'questionDescription' => $question->question_description,
+                     'createdAt' => $question->created_at
 
-                $question_item = array(
-                    'questionId' => $id,
-                    'questionTitle' => $question_title,
-                    'questionDescription' => $question_description,
-                    'createdAt' => $created_at
+                   ]
                 );
-
-            }
-
-            $question_arr['data'] = array();
-
-            array_push($question_arr['data'], $question_item);
-
-            echo json_encode($question_arr);
 
         } else {
 
+            http_response_code(404);
             echo json_encode(
                 [
                     'message' => 'This question does not exist'
-                ], 404
+                ]
                 );
         }
 
     }
+
 }
